@@ -105,6 +105,8 @@ namespace Ryujinx.Ava.UI.ViewModels
         private string TitleName { get; set; }
         internal AppHost AppHost { get; set; }
 
+        DotMemorySnapshotTimer _dotMemorySnapshotTimer;
+
         public MainWindowViewModel()
         {
             Applications = new ObservableCollection<ApplicationData>();
@@ -122,6 +124,12 @@ namespace Ryujinx.Ava.UI.ViewModels
 
                 Volume = ConfigurationState.Instance.System.AudioVolume;
             }
+
+            _dotMemorySnapshotTimer = new DotMemorySnapshotTimer("Run", TimeSpan.FromSeconds(20), 10, () =>
+            {
+                IsClosing = true;
+                ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current.ApplicationLifetime).MainWindow.Close();
+            });
         }
 
         public void Initialize(
@@ -1651,6 +1659,8 @@ namespace Ryujinx.Ava.UI.ViewModels
 
         public async void LoadApplication(string path, bool startFullscreen = false, string titleName = "")
         {
+            _dotMemorySnapshotTimer.StartTimer();
+
             if (AppHost != null)
             {
                 await ContentDialogHelper.CreateInfoDialog(
