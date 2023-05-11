@@ -93,6 +93,8 @@ namespace Ryujinx.Ui.App.Common
             // Builds the applications list with paths to found applications
             List<string> applications = new();
 
+            StringComparer stringComparer = StringComparer.OrdinalIgnoreCase;
+
             try
             {
                 foreach (string appDir in appDirs)
@@ -113,15 +115,16 @@ namespace Ryujinx.Ui.App.Common
                     {
                         IEnumerable<string> files = Directory.EnumerateFiles(appDir, "*", SearchOption.AllDirectories).Where(file =>
                         {
+                            string extension = Path.GetExtension(file);
                             return
-                            (Path.GetExtension(file).ToLower() is ".nsp"  && ConfigurationState.Instance.Ui.ShownFileTypes.NSP.Value)  ||
-                            (Path.GetExtension(file).ToLower() is ".pfs0" && ConfigurationState.Instance.Ui.ShownFileTypes.PFS0.Value) ||
-                            (Path.GetExtension(file).ToLower() is ".xci"  && ConfigurationState.Instance.Ui.ShownFileTypes.XCI.Value)  ||
-                            (Path.GetExtension(file).ToLower() is ".nca"  && ConfigurationState.Instance.Ui.ShownFileTypes.NCA.Value)  ||
-                            (Path.GetExtension(file).ToLower() is ".nro"  && ConfigurationState.Instance.Ui.ShownFileTypes.NRO.Value)  ||
-                            (Path.GetExtension(file).ToLower() is ".nso"  && ConfigurationState.Instance.Ui.ShownFileTypes.NSO.Value);
+                            (stringComparer.Equals(extension, ".nsp")  && ConfigurationState.Instance.Ui.ShownFileTypes.NSP.Value)  ||
+                            (stringComparer.Equals(extension, ".pfs0") && ConfigurationState.Instance.Ui.ShownFileTypes.PFS0.Value) ||
+                            (stringComparer.Equals(extension, ".xci")  && ConfigurationState.Instance.Ui.ShownFileTypes.XCI.Value)  ||
+                            (stringComparer.Equals(extension, ".nca")  && ConfigurationState.Instance.Ui.ShownFileTypes.NCA.Value)  ||
+                            (stringComparer.Equals(extension, ".nro")  && ConfigurationState.Instance.Ui.ShownFileTypes.NRO.Value)  ||
+                            (stringComparer.Equals(extension, ".nso")  && ConfigurationState.Instance.Ui.ShownFileTypes.NSO.Value);
                         });
-                        
+
                         foreach (string app in files)
                         {
                             if (_cancellationToken.Token.IsCancellationRequested)
@@ -130,9 +133,15 @@ namespace Ryujinx.Ui.App.Common
                             }
 
                             var fileInfo = new FileInfo(app);
-                            string extension = fileInfo.Extension.ToLower();
+                            string extension = fileInfo.Extension;
 
-                            if (!fileInfo.Attributes.HasFlag(FileAttributes.Hidden) && extension is ".nsp" or ".pfs0" or ".xci" or ".nca" or ".nro" or ".nso")
+                            if (!fileInfo.Attributes.HasFlag(FileAttributes.Hidden) &&
+                                stringComparer.Equals(extension, ".nsp") ||
+                                stringComparer.Equals(extension, ".pfs0") ||
+                                stringComparer.Equals(extension, ".xci") ||
+                                stringComparer.Equals(extension, ".nca") ||
+                                stringComparer.Equals(extension, ".nro") ||
+                                stringComparer.Equals(extension, ".nso"))
                             {
                                 var fullPath = fileInfo.ResolveLinkTarget(true)?.FullName ?? fileInfo.FullName;
                                 applications.Add(fullPath);
@@ -165,11 +174,11 @@ namespace Ryujinx.Ui.App.Common
 
                     try
                     {
-                        string extension = Path.GetExtension(applicationPath).ToLower();
+                        string extension = Path.GetExtension(applicationPath);
 
                         using FileStream file = new(applicationPath, FileMode.Open, FileAccess.Read);
 
-                        if (extension == ".nsp" || extension == ".pfs0" || extension == ".xci")
+                        if (stringComparer.Equals(extension, ".nsp") || stringComparer.Equals(extension, ".pfs0") || stringComparer.Equals(extension, ".xci"))
                         {
                             try
                             {
@@ -177,7 +186,7 @@ namespace Ryujinx.Ui.App.Common
 
                                 bool isExeFs = false;
 
-                                if (extension == ".xci")
+                                if (stringComparer.Equals(extension, ".xci"))
                                 {
                                     Xci xci = new(_virtualFileSystem.KeySet, file.AsStorage());
 
@@ -192,7 +201,7 @@ namespace Ryujinx.Ui.App.Common
 
                                     foreach (DirectoryEntryEx fileEntry in pfs.EnumerateEntries("/", "*"))
                                     {
-                                        if (Path.GetExtension(fileEntry.FullPath).ToLower() == ".nca")
+                                        if (stringComparer.Equals(Path.GetExtension(fileEntry.FullPath), ".nca"))
                                         {
                                             using UniqueRef<IFile> ncaFile = new();
 
