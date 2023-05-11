@@ -7,12 +7,17 @@
 
         static Bits()
         {
-            Replicate8_16Table = new ushort[0x200];
-            Replicate1_7Table = new byte[0x200];
+            const int TableLength = 0x200;
 
-            for (int i = 0; i < 0x200; i++)
+            Replicate8_16Table = new ushort[TableLength];
+            for (int i = 0; i < Replicate8_16Table.Length; i++)
             {
                 Replicate8_16Table[i] = (ushort)Replicate(i, 8, 16);
+            }
+
+            Replicate1_7Table = new byte[TableLength];
+            for (int i = 0; i < Replicate1_7Table.Length; i++)
+            {
                 Replicate1_7Table[i] = (byte)Replicate(i, 1, 7);
             }
         }

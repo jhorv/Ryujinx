@@ -270,13 +270,13 @@ namespace Ryujinx.Graphics.OpenGL
             int quadsCount = vertexCount / 4;
 
             int[] firsts = new int[quadsCount];
-            int[] counts = new int[quadsCount];
-
-            for (int quadIndex = 0; quadIndex < quadsCount; quadIndex++)
+            for (int quadIndex = 0; quadIndex < firsts.Length; quadIndex++)
             {
                 firsts[quadIndex] = firstVertex + quadIndex * 4;
-                counts[quadIndex] = 4;
             }
+
+            int[] counts = new int[quadsCount];
+            Array.Fill(counts, 4);
 
             GL.MultiDrawArrays(
                 PrimitiveType.TriangleFan,
@@ -460,19 +460,16 @@ namespace Ryujinx.Graphics.OpenGL
             else
             {
                 IntPtr[] indices = new IntPtr[quadsCount];
-
-                int[] counts = new int[quadsCount];
-
-                int[] baseVertices = new int[quadsCount];
-
-                for (int quadIndex = 0; quadIndex < quadsCount; quadIndex++)
+                for (int quadIndex = 0; quadIndex < indices.Length; quadIndex++)
                 {
                     indices[quadIndex] = indexBaseOffset + quadIndex * 4 * indexElemSize;
-
-                    counts[quadIndex] = 4;
-
-                    baseVertices[quadIndex] = firstVertex;
                 }
+
+                int[] counts = new int[quadsCount];
+                Array.Fill(counts, 4);
+
+                int[] baseVertices = new int[quadsCount];
+                Array.Fill(baseVertices, firstVertex);
 
                 GL.MultiDrawElementsBaseVertex(
                     PrimitiveType.TriangleFan,
