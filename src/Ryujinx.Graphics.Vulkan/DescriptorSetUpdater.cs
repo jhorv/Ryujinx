@@ -345,8 +345,9 @@ namespace Ryujinx.Graphics.Vulkan
         private void UpdateAndBind(CommandBufferScoped cbs, int setIndex, PipelineBindPoint pbp)
         {
             var program = _program;
-            int stagesCount = program.Bindings[setIndex].Length;
-            if (stagesCount == 0 && setIndex != PipelineBase.UniformSetIndex)
+            int[][] stages = program.Bindings[setIndex];
+
+            if (stages.Length == 0 && setIndex != PipelineBase.UniformSetIndex)
             {
                 return;
             }
@@ -383,18 +384,17 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             }
 
-            for (int stageIndex = 0; stageIndex < stagesCount; stageIndex++)
+            for (int stageIndex = 0; stageIndex < stages.Length; stageIndex++)
             {
-                var stageBindings = program.Bindings[setIndex][stageIndex];
-                int bindingsCount = stageBindings.Length;
+                var stageBindings = stages[stageIndex];
                 int count;
 
-                for (int bindingIndex = 0; bindingIndex < bindingsCount; bindingIndex += count)
+                for (int bindingIndex = 0; bindingIndex < stageBindings.Length; bindingIndex += count)
                 {
                     int binding = stageBindings[bindingIndex];
                     count = 1;
 
-                    while (bindingIndex + count < bindingsCount && stageBindings[bindingIndex + count] == binding + count)
+                    while (bindingIndex + count < stageBindings.Length && stageBindings[bindingIndex + count] == binding + count)
                     {
                         count++;
                     }
@@ -542,7 +542,7 @@ namespace Ryujinx.Graphics.Vulkan
         private void UpdateAndBindUniformBufferPd(CommandBufferScoped cbs, PipelineBindPoint pbp)
         {
             var dummyBuffer = _dummyBuffer?.GetBuffer();
-            int stagesCount = _program.Bindings[PipelineBase.UniformSetIndex].Length;
+            int[][] stages = _program.Bindings[PipelineBase.UniformSetIndex];
 
             if (!_uniformSet[0])
             {
@@ -560,18 +560,17 @@ namespace Ryujinx.Graphics.Vulkan
                 UpdateBuffers(cbs, pbp, 0, uniformBuffer, DescriptorType.UniformBuffer);
             }
 
-            for (int stageIndex = 0; stageIndex < stagesCount; stageIndex++)
+            for (int stageIndex = 0; stageIndex < stages.Length; stageIndex++)
             {
-                var stageBindings = _program.Bindings[PipelineBase.UniformSetIndex][stageIndex];
-                int bindingsCount = stageBindings.Length;
+                int[] stageBindings = stages[stageIndex];
                 int count;
 
-                for (int bindingIndex = 0; bindingIndex < bindingsCount; bindingIndex += count)
+                for (int bindingIndex = 0; bindingIndex < stageBindings.Length; bindingIndex += count)
                 {
                     int binding = stageBindings[bindingIndex];
                     count = 1;
 
-                    while (bindingIndex + count < bindingsCount && stageBindings[bindingIndex + count] == binding + count)
+                    while (bindingIndex + count < stageBindings.Length && stageBindings[bindingIndex + count] == binding + count)
                     {
                         count++;
                     }
