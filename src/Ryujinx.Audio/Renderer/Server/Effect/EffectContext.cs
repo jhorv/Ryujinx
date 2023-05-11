@@ -15,11 +15,6 @@ namespace Ryujinx.Audio.Renderer.Server.Effect
         /// </summary>
         private BaseEffect[] _effects;
 
-        /// <summary>
-        /// The total effect count.
-        /// </summary>
-        private uint _effectCount;
-
         private EffectResultState[] _resultStatesCpu;
         private EffectResultState[] _resultStatesDsp;
 
@@ -28,8 +23,7 @@ namespace Ryujinx.Audio.Renderer.Server.Effect
         /// </summary>
         public EffectContext()
         {
-            _effects = null;
-            _effectCount = 0;
+            _effects = Array.Empty<BaseEffect>();
         }
 
         /// <summary>
@@ -39,7 +33,6 @@ namespace Ryujinx.Audio.Renderer.Server.Effect
         /// <param name="resultStateCount">The total result state count.</param>
         public void Initialize(uint effectCount, uint resultStateCount)
         {
-            _effectCount = effectCount;
             _effects = new BaseEffect[effectCount];
 
             for (int i = 0; i < _effects.Length; i++)
@@ -57,7 +50,7 @@ namespace Ryujinx.Audio.Renderer.Server.Effect
         /// <returns>The total effect count.</returns>
         public uint GetCount()
         {
-            return _effectCount;
+            return (uint)_effects.Length;
         }
 
         /// <summary>
@@ -67,7 +60,7 @@ namespace Ryujinx.Audio.Renderer.Server.Effect
         /// <returns>A reference to a <see cref="BaseEffect"/> at the given <paramref name="index"/>.</returns>
         public ref BaseEffect GetEffect(int index)
         {
-            Debug.Assert(index >= 0 && index < _effectCount);
+            Debug.Assert(index >= 0 && index < _effects.Length);
 
             return ref _effects[index];
         }

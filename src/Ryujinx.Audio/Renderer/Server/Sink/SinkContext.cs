@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 
 namespace Ryujinx.Audio.Renderer.Server.Sink
@@ -13,18 +14,13 @@ namespace Ryujinx.Audio.Renderer.Server.Sink
         private BaseSink[] _sinks;
 
         /// <summary>
-        /// The total sink count.
-        /// </summary>
-        private uint _sinkCount;
-
-        /// <summary>
         /// Initialize the <see cref="SinkContext"/>.
         /// </summary>
         /// <param name="sinksCount">The total sink count.</param>
         public void Initialize(uint sinksCount)
         {
-            _sinkCount = sinksCount;
-            _sinks = new BaseSink[_sinkCount];
+            int length = checked((int)sinksCount);
+            _sinks = length == 0 ? Array.Empty<BaseSink>() : new BaseSink[length];
 
             for (int i = 0; i < _sinks.Length; i++)
             {
@@ -38,7 +34,7 @@ namespace Ryujinx.Audio.Renderer.Server.Sink
         /// <returns>The total sink count.</returns>
         public uint GetCount()
         {
-            return _sinkCount;
+            return (uint)_sinks.Length;
         }
 
         /// <summary>
@@ -48,7 +44,7 @@ namespace Ryujinx.Audio.Renderer.Server.Sink
         /// <returns>A reference to a <see cref="BaseSink"/> at the given <paramref name="id"/>.</returns>
         public ref BaseSink GetSink(int id)
         {
-            Debug.Assert(id >= 0 && id < _sinkCount);
+            Debug.Assert(id >= 0 && id < _sinks.Length);
 
             return ref _sinks[id];
         }

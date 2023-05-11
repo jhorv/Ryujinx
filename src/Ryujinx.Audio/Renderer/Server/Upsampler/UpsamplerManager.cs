@@ -11,22 +11,17 @@ namespace Ryujinx.Audio.Renderer.Server.Upsampler
         /// <summary>
         /// Work buffer for upsampler.
         /// </summary>
-        private Memory<float> _upSamplerWorkBuffer;
+        private readonly Memory<float> _upSamplerWorkBuffer;
 
         /// <summary>
         /// Global lock of the object.
         /// </summary>
-        private object Lock = new object();
+        private readonly object _lock = new object();
 
         /// <summary>
         /// The upsamplers instances.
         /// </summary>
-        private UpsamplerState[] _upsamplers;
-
-        /// <summary>
-        /// The count of upsamplers.
-        /// </summary>
-        private uint _count;
+        private readonly UpsamplerState[] _upsamplers;
 
         /// <summary>
         /// Create a new <see cref="UpsamplerManager"/>.
@@ -36,9 +31,8 @@ namespace Ryujinx.Audio.Renderer.Server.Upsampler
         public UpsamplerManager(Memory<float> upSamplerWorkBuffer, uint count)
         {
             _upSamplerWorkBuffer = upSamplerWorkBuffer;
-            _count = count;
 
-            _upsamplers = new UpsamplerState[_count];
+            _upsamplers = new UpsamplerState[count];
         }
 
         /// <summary>
@@ -49,9 +43,9 @@ namespace Ryujinx.Audio.Renderer.Server.Upsampler
         {
             int workBufferOffset = 0;
 
-            lock (Lock)
+            lock (_lock)
             {
-                for (int i = 0; i < _count; i++)
+                for (int i = 0; i < _upsamplers.Length; i++)
                 {
                     if (_upsamplers[i] == null)
                     {
@@ -73,7 +67,7 @@ namespace Ryujinx.Audio.Renderer.Server.Upsampler
         /// <param name="index">The index of the <see cref="UpsamplerState"/> to free.</param>
         public void Free(int index)
         {
-            lock (Lock)
+            lock (_lock)
             {
                 Debug.Assert(_upsamplers[index] != null);
 

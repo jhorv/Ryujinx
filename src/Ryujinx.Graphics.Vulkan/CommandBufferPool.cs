@@ -10,8 +10,7 @@ namespace Ryujinx.Graphics.Vulkan
     {
         public const int MaxCommandBuffers = 16;
 
-        private int _totalCommandBuffers;
-        private int _totalCommandBuffersMask;
+        private readonly int _totalCommandBuffersMask;
 
         private readonly Vk _api;
         private readonly Device _device;
@@ -78,12 +77,12 @@ namespace Ryujinx.Graphics.Vulkan
             api.CreateCommandPool(device, commandPoolCreateInfo, null, out _pool).ThrowOnError();
 
             // We need at least 2 command buffers to get texture data in some cases.
-            _totalCommandBuffers = isLight ? 2 : MaxCommandBuffers;
-            _totalCommandBuffersMask = _totalCommandBuffers - 1;
+            int totalCommandBuffers = isLight ? 2 : MaxCommandBuffers;
+            _totalCommandBuffersMask = totalCommandBuffers - 1;
 
-            _commandBuffers = new ReservedCommandBuffer[_totalCommandBuffers];
+            _commandBuffers = new ReservedCommandBuffer[totalCommandBuffers];
 
-            _queuedIndexes = new int[_totalCommandBuffers];
+            _queuedIndexes = new int[totalCommandBuffers];
             _queuedIndexesPtr = 0;
             _queuedCount = 0;
 
@@ -208,7 +207,7 @@ namespace Ryujinx.Graphics.Vulkan
                     freeEntry = index;
 
                     _queuedCount--;
-                    _queuedIndexesPtr = (_queuedIndexesPtr + 1) % _totalCommandBuffers;
+                    _queuedIndexesPtr = (_queuedIndexesPtr + 1) % _commandBuffers.Length;
                 }
                 else
                 {
@@ -229,7 +228,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             lock (_commandBuffers)
             {
-                int cursor = FreeConsumed(_inUseCount + _queuedCount == _totalCommandBuffers);
+                int cursor = FreeConsumed(_inUseCount + _queuedCount == _commandBuffers.Length);
 
                 for (int i = 0; i < _commandBuffers.Length; i++)
                 {
@@ -255,7 +254,7 @@ namespace Ryujinx.Graphics.Vulkan
                 }
             }
 
-            throw new InvalidOperationException($"Out of command buffers (In use: {_inUseCount}, queued: {_queuedCount}, total: {_totalCommandBuffers})");
+            throw new InvalidOperationException($"Out of command buffers (In use: {_inUseCount}, queued: {_queuedCount}, total: {_commandBuffers.Length})");
         }
 
         public void Return(CommandBufferScoped cbs)
@@ -308,7 +307,7 @@ namespace Ryujinx.Graphics.Vulkan
                     }
                 }
 
-                int ptr = (_queuedIndexesPtr + _queuedCount) % _totalCommandBuffers;
+                int ptr = (_queuedIndexesPtr + _queuedCount) % _commandBuffers.Length;
                 _queuedIndexes[ptr] = cbIndex;
                 _queuedCount++;
             }

@@ -19,8 +19,6 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
         private int _activeSlotsCount;
 
-        private uint _size;
-
         private ushort _idCounter;
 
         public KHandleTable(KernelContext context)
@@ -39,8 +37,6 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
             {
                 size = 1024;
             }
-
-            _size = size;
 
             _idCounter = 1;
 
@@ -72,7 +68,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
             lock (_table)
             {
-                if (_activeSlotsCount >= _size)
+                if (_activeSlotsCount >= _table.Length)
                 {
                     return KernelResult.HandleTableFull;
                 }
@@ -109,7 +105,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
             lock (_table)
             {
-                if (_activeSlotsCount >= _size)
+                if (_activeSlotsCount >= _table.Length)
                 {
                     return KernelResult.HandleTableFull;
                 }
@@ -186,7 +182,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
             lock (_table)
             {
-                if (handleId != 0 && index < _size)
+                if (handleId != 0 && index < _table.Length)
                 {
                     KHandleEntry entry = _table[index];
 
@@ -219,7 +215,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
             lock (_table)
             {
-                if ((handle >> 30) == 0 && handleId != 0 && index < _size)
+                if ((handle >> 30) == 0 && handleId != 0 && index < _table.Length)
                 {
                     KHandleEntry entry = _table[index];
 
