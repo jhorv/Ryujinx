@@ -111,7 +111,7 @@ namespace Ryujinx.Memory
         /// <inheritdoc/>
         public void Write<T>(ulong va, T value) where T : unmanaged
         {
-            Write(va, MemoryMarshal.Cast<T, byte>(MemoryMarshal.CreateSpan(ref value, 1)));
+            Write(va, MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1)));
         }
 
         /// <inheritdoc/>

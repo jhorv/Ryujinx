@@ -113,7 +113,7 @@ namespace Ryujinx.Audio.Backends.CompatLayer
                     throw new NotImplementedException($"Downmixing from {_userChannelCount} to {_realSession.RequestedChannelCount} not implemented.");
                 }
 
-                samples = MemoryMarshal.Cast<short, byte>(samplesPCM16).ToArray();
+                samples = MemoryMarshal.AsBytes(samplesPCM16).ToArray();
             }
 
             AudioBuffer fakeBuffer = new AudioBuffer

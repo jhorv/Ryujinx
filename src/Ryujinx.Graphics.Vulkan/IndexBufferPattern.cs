@@ -121,7 +121,7 @@ namespace Ryujinx.Graphics.Vulkan
                 index += IndexStride;
             }
 
-            _gd.SetBufferData(newBuffer, _currentSize * sizeof(int), MemoryMarshal.Cast<int, byte>(newData));
+            _gd.SetBufferData(newBuffer, _currentSize * sizeof(int), MemoryMarshal.AsBytes<int>(newData));
             _currentSize = expectedSize;
 
             return newBuffer;

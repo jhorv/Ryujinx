@@ -303,7 +303,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Hipc
                 Request          = request
             };
 
-            ReadOnlySpan<byte> inRawData = MemoryMarshal.Cast<uint, byte>(dispatchCtx.Request.Data.DataWords);
+            ReadOnlySpan<byte> inRawData = MemoryMarshal.AsBytes(dispatchCtx.Request.Data.DataWords);
 
             int inRawSize = dispatchCtx.Request.Meta.DataWordsCount * sizeof(uint);
 

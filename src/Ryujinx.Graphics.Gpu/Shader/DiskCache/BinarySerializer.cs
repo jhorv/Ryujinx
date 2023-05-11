@@ -31,7 +31,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <param name="data">Data read</param>
         public void Read<T>(ref T data) where T : unmanaged
         {
-            Span<byte> buffer = MemoryMarshal.Cast<T, byte>(MemoryMarshal.CreateSpan(ref data, 1));
+            Span<byte> buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref data, 1));
             for (int offset = 0; offset < buffer.Length;)
             {
                 offset += _activeStream.Read(buffer.Slice(offset));
@@ -84,7 +84,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
                 throw new DiskCacheLoadException(DiskCacheLoadResult.FileCorruptedInvalidLength);
             }
 
-            Span<byte> buffer = MemoryMarshal.Cast<T, byte>(MemoryMarshal.CreateSpan(ref data, 1)).Slice(0, size);
+            Span<byte> buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref data, 1)).Slice(0, size);
             for (int offset = 0; offset < buffer.Length;)
             {
                 offset += _activeStream.Read(buffer.Slice(offset));
@@ -98,7 +98,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         /// <param name="data">Data to be written</param>
         public void Write<T>(ref T data) where T : unmanaged
         {
-            Span<byte> buffer = MemoryMarshal.Cast<T, byte>(MemoryMarshal.CreateSpan(ref data, 1));
+            Span<byte> buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref data, 1));
             _activeStream.Write(buffer);
         }
 
@@ -113,7 +113,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
             int size = Unsafe.SizeOf<T>();
             Write(ref magic);
             Write(ref size);
-            Span<byte> buffer = MemoryMarshal.Cast<T, byte>(MemoryMarshal.CreateSpan(ref data, 1));
+            Span<byte> buffer = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref data, 1));
             _activeStream.Write(buffer);
         }
 

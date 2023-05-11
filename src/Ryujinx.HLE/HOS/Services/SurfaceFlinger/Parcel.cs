@@ -175,7 +175,7 @@ namespace Ryujinx.HLE.HOS.Services.SurfaceFlinger
 
         public void WriteUnmanagedSpan<T>(ReadOnlySpan<T> value) where T : unmanaged
         {
-            WriteInplace(MemoryMarshal.Cast<T, byte>(value));
+            WriteInplace(MemoryMarshal.AsBytes(value));
         }
 
         public void WriteUnmanagedType<T>(ref T value) where T : unmanaged

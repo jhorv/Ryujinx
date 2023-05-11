@@ -365,7 +365,7 @@ namespace Ryujinx.HLE.HOS.Services.Mii.StaticService
 
         private void WriteSpanToBuffer<T>(ServiceCtx context, IpcBuffDesc ipcBuff, Span<T> span) where T: unmanaged
         {
-            Span<byte> rawData = MemoryMarshal.Cast<T, byte>(span);
+            Span<byte> rawData = MemoryMarshal.AsBytes(span);
 
             context.Memory.Write(ipcBuff.Position, rawData);
         }

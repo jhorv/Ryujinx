@@ -87,7 +87,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.MME
         /// <returns>True if there is a implementation available and supported, false otherwise</returns>
         public static bool TryGetMacroHLEFunction(ReadOnlySpan<int> code, Capabilities caps, out MacroHLEFunctionName name)
         {
-            var mc = MemoryMarshal.Cast<int, byte>(code);
+            var mc = MemoryMarshal.AsBytes(code);
 
             for (int i = 0; i < _table.Length; i++)
             {

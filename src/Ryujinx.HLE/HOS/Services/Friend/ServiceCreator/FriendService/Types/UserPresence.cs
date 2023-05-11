@@ -18,7 +18,7 @@ namespace Ryujinx.HLE.HOS.Services.Friend.ServiceCreator.FriendService
         public Array3<byte> Unknown;
         private AppKeyValueStorageHolder _appKeyValueStorage;
 
-        public Span<byte> AppKeyValueStorage => MemoryMarshal.Cast<AppKeyValueStorageHolder, byte>(MemoryMarshal.CreateSpan(ref _appKeyValueStorage, AppKeyValueStorageHolder.Size));
+        public Span<byte> AppKeyValueStorage => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref _appKeyValueStorage, AppKeyValueStorageHolder.Size));
 
         [StructLayout(LayoutKind.Sequential, Pack = 0x1, Size = Size)]
         private struct AppKeyValueStorageHolder

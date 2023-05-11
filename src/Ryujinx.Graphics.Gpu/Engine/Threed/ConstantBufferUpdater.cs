@@ -113,7 +113,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             {
                 var memoryManager = _channel.MemoryManager;
 
-                Span<byte> data = MemoryMarshal.Cast<int, byte>(_ubData.AsSpan(0, (int)(_ubByteCount / 4)));
+                Span<byte> data = MemoryMarshal.AsBytes(_ubData.AsSpan(0, (int)(_ubByteCount / 4)));
 
                 if (memoryManager.Physical.WriteWithRedundancyCheck(_ubBeginCpuAddress, data))
                 {

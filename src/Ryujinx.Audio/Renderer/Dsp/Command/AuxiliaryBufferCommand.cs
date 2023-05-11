@@ -71,7 +71,7 @@ namespace Ryujinx.Audio.Renderer.Dsp.Command
             {
                 uint countToWrite = Math.Min(countMax - targetReadOffset, remaining);
 
-                memoryManager.Read(bufferAddress + targetReadOffset * sizeof(int), MemoryMarshal.Cast<int, byte>(outBuffer.Slice((int)outBufferOffset, (int)countToWrite)));
+                memoryManager.Read(bufferAddress + targetReadOffset * sizeof(int), MemoryMarshal.AsBytes(outBuffer.Slice((int)outBufferOffset, (int)countToWrite)));
 
                 targetReadOffset = (targetReadOffset + countToWrite) % countMax;
                 remaining -= countToWrite;
@@ -111,7 +111,7 @@ namespace Ryujinx.Audio.Renderer.Dsp.Command
             {
                 uint countToWrite = Math.Min(countMax - targetWriteOffset, remaining);
 
-                memoryManager.Write(outBufferAddress + targetWriteOffset * sizeof(int), MemoryMarshal.Cast<int, byte>(buffer.Slice((int)inBufferOffset, (int)countToWrite)));
+                memoryManager.Write(outBufferAddress + targetWriteOffset * sizeof(int), MemoryMarshal.AsBytes(buffer.Slice((int)inBufferOffset, (int)countToWrite)));
 
                 targetWriteOffset = (targetWriteOffset + countToWrite) % countMax;
                 remaining -= countToWrite;

@@ -53,7 +53,7 @@ namespace Ryujinx.Audio.Renderer.Utils
 
         public void AppendBuffer(ReadOnlySpan<short> data, uint channelCount)
         {
-            _stream.Write(MemoryMarshal.Cast<short, byte>(data));
+            _stream.Write(MemoryMarshal.AsBytes(data));
 
             UpdateHeader();
             _stream.Flush();

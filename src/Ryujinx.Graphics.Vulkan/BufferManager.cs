@@ -474,7 +474,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public void SetData<T>(BufferHandle handle, int offset, ReadOnlySpan<T> data) where T : unmanaged
         {
-            SetData(handle, offset, MemoryMarshal.Cast<T, byte>(data), null, null);
+            SetData(handle, offset, MemoryMarshal.AsBytes(data), null, null);
         }
 
         public void SetData(BufferHandle handle, int offset, ReadOnlySpan<byte> data, CommandBufferScoped? cbs, Action endRenderPass)

@@ -129,7 +129,7 @@ namespace Ryujinx.Graphics.Texture.Astc
                 Success = false;
             }
 
-            Span<byte> decompressedBytes = MemoryMarshal.Cast<int, byte>(decompressedData);
+            Span<byte> decompressedBytes = MemoryMarshal.AsBytes(decompressedData);
 
             AstcLevel levelInfo = GetLevelInfo(index);
 

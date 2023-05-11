@@ -33,7 +33,7 @@ namespace Ryujinx.Cpu
 
         public unsafe static ulong Write<T>(IVirtualMemoryManager memory, ulong position, T value) where T : unmanaged
         {
-            ReadOnlySpan<byte> data = MemoryMarshal.Cast<T, byte>(MemoryMarshal.CreateReadOnlySpan(ref value, 1));
+            ReadOnlySpan<byte> data = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref value, 1));
 
             memory.Write(position, data);
 

@@ -129,7 +129,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
                 _domain.RegisterObject(objectIds[i], outObjects[i]);
             }
 
-            Span<int> outObjectIds = MemoryMarshal.Cast<byte, int>(MemoryMarshal.Cast<uint, byte>(response.DataWords)[_outObjectIdsOffset..]);
+            Span<int> outObjectIds = MemoryMarshal.Cast<byte, int>(MemoryMarshal.AsBytes(response.DataWords)[_outObjectIdsOffset..]);
 
             for (int i = 0; i < outObjectsCount; i++)
             {

@@ -84,7 +84,7 @@ namespace Ryujinx.Graphics.GAL
         {
             if (_startOffset != -1)
             {
-                ReadOnlySpan<byte> data = MemoryMarshal.Cast<SupportBuffer, byte>(MemoryMarshal.CreateSpan(ref Data, 1));
+                ReadOnlySpan<byte> data = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref Data, 1));
 
                 _renderer.SetBufferData(Handle, _startOffset, data.Slice(_startOffset, _endOffset - _startOffset));
 

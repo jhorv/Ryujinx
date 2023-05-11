@@ -72,7 +72,7 @@ namespace Ryujinx.Common.SystemInfo
                 (regs[4 * i], regs[4 * i + 1], regs[4 * i + 2], regs[4 * i + 3]) = X86Base.CpuId((int)(0x80000002 + i), 0);
             }
 
-            string name = Encoding.ASCII.GetString(MemoryMarshal.Cast<int, byte>(regs)).Replace('\0', ' ').Trim();
+            string name = Encoding.ASCII.GetString(MemoryMarshal.AsBytes<int>(regs)).Replace('\0', ' ').Trim();
 
             return string.IsNullOrEmpty(name) ? null : name;
         }

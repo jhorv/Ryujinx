@@ -75,7 +75,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         private static bool SequenceEqual<T>(ReadOnlySpan<T> x, ReadOnlySpan<T> y, uint count) where T : unmanaged
         {
-            return MemoryMarshal.Cast<T, byte>(x.Slice(0, (int)count)).SequenceEqual(MemoryMarshal.Cast<T, byte>(y.Slice(0, (int)count)));
+            return MemoryMarshal.AsBytes(x.Slice(0, (int)count)).SequenceEqual(MemoryMarshal.AsBytes(y.Slice(0, (int)count)));
         }
 
         public override int GetHashCode()

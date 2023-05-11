@@ -24,7 +24,7 @@ namespace Ryujinx.Common
 
             if (BitConverter.IsLittleEndian)
             {
-                ReadOnlySpan<byte> byteBuffer = MemoryMarshal.Cast<int, byte>(buffer);
+                ReadOnlySpan<byte> byteBuffer = MemoryMarshal.AsBytes(buffer);
                 stream.Write(byteBuffer);
             }
             else

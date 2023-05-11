@@ -80,11 +80,11 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
                 Token     = format.ObjectId != 0 ? 0u : format.Context
             };
 
-            request.Data = MemoryMarshal.Cast<uint, byte>(data)[Unsafe.SizeOf<CmifInHeader>()..];
+            request.Data = MemoryMarshal.AsBytes(data)[Unsafe.SizeOf<CmifInHeader>()..];
 
             int paddingSizeBefore = (rawDataSizeInWords - request.Hipc.DataWords.Length) * sizeof(uint);
 
-            Span<byte> outPointerTable = MemoryMarshal.Cast<uint, byte>(request.Hipc.DataWords)[(outPointerSizeTableOffset - paddingSizeBefore)..];
+            Span<byte> outPointerTable = MemoryMarshal.AsBytes(request.Hipc.DataWords)[(outPointerSizeTableOffset - paddingSizeBefore)..];
 
             request.OutPointerSizes   = MemoryMarshal.Cast<byte, ushort>(outPointerTable);
             request.ServerPointerSize = format.ServerPointerSize;
@@ -96,7 +96,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
         {
             HipcMessage responseMessage = new(input);
 
-            Span<byte> data    = MemoryMarshal.Cast<uint, byte>(responseMessage.Data.DataWords);
+            Span<byte> data    = MemoryMarshal.AsBytes(responseMessage.Data.DataWords);
             Span<uint> objects = Span<uint>.Empty;
 
             if (isDomain)

@@ -62,7 +62,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed.Blender
                 currentCode = currentCode.Slice(0, codeLength);
             }
 
-            Hash128 hash = XXHash128.ComputeHash(MemoryMarshal.Cast<uint, byte>(currentCode));
+            Hash128 hash = XXHash128.ComputeHash(MemoryMarshal.AsBytes(currentCode));
 
             descriptor = default;
 

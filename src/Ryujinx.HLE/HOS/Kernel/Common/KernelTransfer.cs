@@ -28,7 +28,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Common
         {
             KProcess currentProcess = KernelStatic.GetCurrentProcess();
 
-            Span<byte> data = MemoryMarshal.Cast<T, byte>(values);
+            Span<byte> data = MemoryMarshal.AsBytes(values);
 
             if (currentProcess.CpuMemory.IsRangeMapped(address, (ulong)data.Length))
             {

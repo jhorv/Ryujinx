@@ -128,7 +128,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             {
                 int baseOffset = (offset - BufferCapacity) * sizeof(uint);
                 BufferHandle buffer = GetInlineIndexBuffer(renderer, baseOffset, BufferCapacity * sizeof(uint));
-                renderer.SetBufferData(buffer, baseOffset, MemoryMarshal.Cast<uint, byte>(_buffer));
+                renderer.SetBufferData(buffer, baseOffset, MemoryMarshal.AsBytes<uint>(_buffer));
             }
 
             _buffer[subOffset] = value;
@@ -155,7 +155,7 @@ namespace Ryujinx.Graphics.Gpu.Engine.Threed
             int baseOffset = (offset - count) * sizeof(uint);
             int length = count * sizeof(uint);
             BufferHandle buffer = GetInlineIndexBuffer(renderer, baseOffset, length);
-            renderer.SetBufferData(buffer, baseOffset, MemoryMarshal.Cast<uint, byte>(_buffer).Slice(0, length));
+            renderer.SetBufferData(buffer, baseOffset, MemoryMarshal.AsBytes<uint>(_buffer).Slice(0, length));
         }
 
         /// <summary>

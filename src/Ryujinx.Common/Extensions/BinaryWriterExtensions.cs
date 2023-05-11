@@ -9,7 +9,7 @@ namespace Ryujinx.Common
         public unsafe static void WriteStruct<T>(this BinaryWriter writer, T value)
             where T : unmanaged
         {
-            ReadOnlySpan<byte> data = MemoryMarshal.Cast<T, byte>(MemoryMarshal.CreateReadOnlySpan(ref value, 1));
+            ReadOnlySpan<byte> data = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref value, 1));
 
             writer.Write(data);
         }

@@ -530,7 +530,7 @@ namespace Ryujinx.Audio.Renderer.Server.Voice
 
                 Memory<VoiceUpdateState> dspSharedState = context.GetUpdateStateForDsp(channelResourceId);
 
-                MemoryMarshal.Cast<VoiceUpdateState, byte>(dspSharedState.Span).Fill(0);
+                MemoryMarshal.AsBytes(dspSharedState.Span).Fill(0);
 
                 voiceChannelResource.UpdateState();
             }

@@ -206,7 +206,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                         }
                         else
                         {
-                            var data             = MemoryMarshal.Cast<uint, byte>(context.Request.Data.DataWords);
+                            var data             = MemoryMarshal.AsBytes(context.Request.Data.DataWords);
                             var recvPointerSizes = MemoryMarshal.Cast<byte, ushort>(data[runtimeMetadata.UnfixedOutPointerSizeOffset..]);
 
                             size = recvPointerSizes[unfixedRecvPointerIndex++];
@@ -368,7 +368,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 (BitUtils.AlignUp(rawDataSize, 4) + 0x10) / sizeof(uint),
                 _outCopyHandlesCount,
                 _outMoveHandlesCount + runtimeMetadata.OutObjectsCount);
-            outRawData = MemoryMarshal.Cast<uint, byte>(response.DataWords);
+            outRawData = MemoryMarshal.AsBytes(response.DataWords);
 
             return response;
         }
@@ -383,7 +383,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 0,
                 0);
 
-            outRawData = MemoryMarshal.Cast<uint, byte>(response.DataWords);
+            outRawData = MemoryMarshal.AsBytes(response.DataWords);
         }
 
         public void SetOutObjects(ref ServiceDispatchContext context, HipcMessageData response, Span<IServiceObject> objects)

@@ -98,7 +98,7 @@ namespace Ryujinx.HLE.HOS.Services.Audio.HardwareOpusDecoderManager
 
             if (result == ResultCode.Success)
             {
-                context.Memory.Write(outputPosition, MemoryMarshal.Cast<short, byte>(outPcmData.AsSpan()));
+                context.Memory.Write(outputPosition, MemoryMarshal.AsBytes(outPcmData.AsSpan()));
 
                 context.ResponseData.Write(outConsumed);
                 context.ResponseData.Write(outSamples);

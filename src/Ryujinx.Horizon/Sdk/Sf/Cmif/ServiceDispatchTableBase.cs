@@ -88,7 +88,7 @@ namespace Ryujinx.Horizon.Sdk.Sf.Cmif
         private static void PrepareForStubReply(scoped ref ServiceDispatchContext context, out Span<byte> outRawData)
         {
             var response = HipcMessage.WriteResponse(context.OutMessageBuffer, 0, 0x20 / sizeof(uint), 0, 0);
-            outRawData = MemoryMarshal.Cast<uint, byte>(response.DataWords);
+            outRawData = MemoryMarshal.AsBytes(response.DataWords);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Ryujinx.HLE.HOS.Services.Time.Clock
 
         private LocationNameStorageHolder _locationName;
 
-        public Span<byte> LocationName => MemoryMarshal.Cast<LocationNameStorageHolder, byte>(MemoryMarshal.CreateSpan(ref _locationName, LocationNameStorageHolder.Size));
+        public Span<byte> LocationName => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref _locationName, LocationNameStorageHolder.Size));
 
         [MarshalAs(UnmanagedType.I1)]
         public bool   IsAutomaticCorrectionEnabled;

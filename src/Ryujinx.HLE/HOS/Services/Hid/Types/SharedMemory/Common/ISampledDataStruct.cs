@@ -39,7 +39,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid.Types.SharedMemory.Common
         {
             ReadOnlySpan<T> structSpan = MemoryMarshal.CreateReadOnlySpan(ref sampledDataStruct, 1);
 
-            ReadOnlySpan<byte> byteSpan = MemoryMarshal.Cast<T, byte>(structSpan);
+            ReadOnlySpan<byte> byteSpan = MemoryMarshal.AsBytes(structSpan);
 
             int fieldOffset = GetSamplingNumberFieldOffset(ref sampledDataStruct);
 
