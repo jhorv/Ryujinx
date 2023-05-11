@@ -81,7 +81,8 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
 
         private static int FromBase36(string encoded)
         {
-            char[] reversedEncoded = encoded.ToLower().ToCharArray().Reverse().ToArray();
+            char[] reversedEncoded = encoded.ToLower().ToCharArray();
+            Array.Reverse(reversedEncoded);
 
             int result = 0;
 
@@ -1324,7 +1325,7 @@ namespace Ryujinx.HLE.HOS.Diagnostics.Demangler
         //                  ::= C3  # complete object allocating constructor
         //                  ::= D0  # deleting destructor
         //                  ::= D1  # complete object destructor
-        //                  ::= D2  # base object destructor 
+        //                  ::= D2  # base object destructor
         private BaseNode ParseCtorDtorName(NameParserContext context, BaseNode prev)
         {
             if (prev.Type == NodeType.SpecialSubstitution && prev is SpecialSubstitution)
