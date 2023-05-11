@@ -171,7 +171,7 @@ namespace Ryujinx.Horizon.Sm.Impl
 
         private int GetServiceInfo(ServiceName name)
         {
-            for (int index = 0; index < MaxServicesCount; index++)
+            for (int index = 0; index < _services.Length; index++)
             {
                 if (_services[index].Name == name)
                 {

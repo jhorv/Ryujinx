@@ -26,7 +26,7 @@ namespace Ryujinx.Audio.Renderer.Server.Sink
             _sinkCount = sinksCount;
             _sinks = new BaseSink[_sinkCount];
 
-            for (int i = 0; i < _sinkCount; i++)
+            for (int i = 0; i < _sinks.Length; i++)
             {
                 _sinks[i] = new BaseSink();
             }

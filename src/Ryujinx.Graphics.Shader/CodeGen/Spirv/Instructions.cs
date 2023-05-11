@@ -642,7 +642,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
             {
                 SpvInstruction[] elems = new SpvInstruction[pCount];
 
-                for (int i = 0; i < pCount; i++)
+                for (int i = 0; i < elems.Length; i++)
                 {
                     elems[i] = Src(AggregateType.S32);
                 }
@@ -731,7 +731,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
             {
                 SpvInstruction[] elems = new SpvInstruction[pCount];
 
-                for (int i = 0; i < pCount; i++)
+                for (int i = 0; i < elems.Length; i++)
                 {
                     elems[i] = Src(AggregateType.S32);
                 }
@@ -797,7 +797,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
             {
                 SpvInstruction[] elems = new SpvInstruction[pCount];
 
-                for (int i = 0; i < pCount; i++)
+                for (int i = 0; i < elems.Length; i++)
                 {
                     elems[i] = Src(AggregateType.S32);
                 }
@@ -816,7 +816,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
 
             SpvInstruction[] cElems = new SpvInstruction[ComponentsCount];
 
-            for (int i = 0; i < ComponentsCount; i++)
+            for (int i = 0; i < cElems.Length; i++)
             {
                 if (srcIndex < texOp.SourcesCount)
                 {
@@ -997,7 +997,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
             {
                 SpvInstruction[] elems = new SpvInstruction[pCount];
 
-                for (int i = 0; i < pCount; i++)
+                for (int i = 0; i < elems.Length; i++)
                 {
                     elems[i] = Src(AggregateType.FP32);
                 }
@@ -1483,7 +1483,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                 {
                     SpvInstruction[] elems = new SpvInstruction[count];
 
-                    for (int index = 0; index < count; index++)
+                    for (int index = 0; index < elems.Length; index++)
                     {
                         if (arrayIndexElem == index)
                         {
@@ -1545,7 +1545,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                 {
                     SpvInstruction[] elems = new SpvInstruction[count];
 
-                    for (int index = 0; index < count; index++)
+                    for (int index = 0; index < elems.Length; index++)
                     {
                         elems[index] = Src(AggregateType.FP32);
                     }
@@ -1595,7 +1595,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Spirv
                 {
                     SpvInstruction[] elems = new SpvInstruction[count];
 
-                    for (int index = 0; index < count; index++)
+                    for (int index = 0; index < elems.Length; index++)
                     {
                         elems[index] = Src(AggregateType.S32);
                     }

@@ -146,7 +146,7 @@ namespace Ryujinx.HLE.HOS.Services.Audio.AudioRenderer
 
             string[] result = new string[deviceCount];
 
-            for (int i = 0; i < deviceCount; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 result[i] = _sessions[i].Device.GetOutputDeviceName();
             }

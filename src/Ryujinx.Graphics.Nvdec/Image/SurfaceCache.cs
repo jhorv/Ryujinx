@@ -41,7 +41,7 @@ namespace Ryujinx.Graphics.Nvdec.Image
                 ISurface surface = null;
 
                 // Try to find a compatible surface with same parameters, and same offsets.
-                for (int i = 0; i < MaxItems; i++)
+                for (int i = 0; i < _pool.Length; i++)
                 {
                     ref CacheItem item = ref _pool[i];
 
@@ -64,7 +64,7 @@ namespace Ryujinx.Graphics.Nvdec.Image
                 // Now we need to ensure that the surface is not in use, as we'll change the data.
                 if (surface == null)
                 {
-                    for (int i = MaxItems - 1; i >= 0; i--)
+                    for (int i = _pool.Length - 1; i >= 0; i--)
                     {
                         ref CacheItem item = ref _pool[i];
 
@@ -128,7 +128,7 @@ namespace Ryujinx.Graphics.Nvdec.Image
         {
             lock (_pool)
             {
-                for (int i = 0; i < MaxItems; i++)
+                for (int i = 0; i < _pool.Length; i++)
                 {
                     ref CacheItem item = ref _pool[i];
 
@@ -158,7 +158,7 @@ namespace Ryujinx.Graphics.Nvdec.Image
         {
             lock (_pool)
             {
-                for (int i = 0; i < MaxItems; i++)
+                for (int i = 0; i < _pool.Length; i++)
                 {
                     ref CacheItem item = ref _pool[i];
 

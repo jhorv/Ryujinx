@@ -286,7 +286,7 @@ namespace Ryujinx.Graphics.Texture.Encoders
 
             Span<int> pBitValues = stackalloc int[pBits];
 
-            for (int i = 0; i < pBits; i++)
+            for (int i = 0; i < pBitValues.Length; i++)
             {
                 int pBit;
 
@@ -349,7 +349,7 @@ namespace Ryujinx.Graphics.Texture.Encoders
 
             Span<bool> colorSwapSubset = stackalloc bool[3];
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < colorSwapSubset.Length; i++)
             {
                 colorSwapSubset[i] = colorIndices[BC67Tables.FixUpIndices[subsetCount - 1][partition][i]] >= (colorIndexCount >> 1);
             }
@@ -438,14 +438,14 @@ namespace Ryujinx.Graphics.Texture.Encoders
                 }
             }
 
-            for (int i = 0; i < pBits; i++)
+            for (int i = 0; i < pBitValues.Length; i++)
             {
                 block.Encode((ulong)pBitValues[i], ref offset, 1);
             }
 
             byte[] fixUpTable = BC67Tables.FixUpIndices[subsetCount - 1][partition];
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < colorIndices.Length; i++)
             {
                 int subset = BC67Tables.PartitionTable[subsetCount - 1][partition][i];
                 byte index = colorIndices[i];
@@ -464,7 +464,7 @@ namespace Ryujinx.Graphics.Texture.Encoders
 
             if (separateAlphaIndices)
             {
-                for (int i = 0; i < 16; i++)
+                for (int i = 0; i < alphaIndices.Length; i++)
                 {
                     byte index = alphaIndices[i];
 
@@ -502,7 +502,7 @@ namespace Ryujinx.Graphics.Texture.Encoders
 
             int errorSum = 0;
 
-            for (int subset = 0; subset < subsetCount; subset++)
+            for (int subset = 0; subset < minColors.Length; subset++)
             {
                 RgbaColor32 blockDir = maxColors[subset].GetColor32() - minColors[subset].GetColor32();
                 int sum = blockDir.R + blockDir.G + blockDir.B + blockDir.A;
@@ -657,9 +657,13 @@ namespace Ryujinx.Graphics.Texture.Encoders
 
             uint inverseMask = ~writeMask;
 
-            for (int i = 0; i < subsetCount; i++)
+            for (int i = 0; i < minColors.Length; i++)
             {
                 Unsafe.As<RgbaColor8, uint>(ref minColors[i]) |= inverseMask;
+            }
+
+            for (int i = 0; i < maxColors.Length; i++)
+            {
                 Unsafe.As<RgbaColor8, uint>(ref maxColors[i]) |= inverseMask;
             }
 
@@ -697,7 +701,7 @@ namespace Ryujinx.Graphics.Texture.Encoders
                     }
                 }
 
-                for (int subset = 0; subset < subsetCount; subset++)
+                for (int subset = 0; subset < counts.Length; subset++)
                 {
                     int offset = subset * 16;
 

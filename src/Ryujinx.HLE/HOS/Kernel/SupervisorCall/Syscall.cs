@@ -663,7 +663,7 @@ namespace Ryujinx.HLE.HOS.Kernel.SupervisorCall
 
             KSynchronizationObject[] syncObjs = new KSynchronizationObject[handlesCount];
 
-            for (int index = 0; index < handlesCount; index++)
+            for (int index = 0; index < handles.Length; index++)
             {
                 KSynchronizationObject obj = currentProcess.HandleTable.GetObject<KSynchronizationObject>(handles[index]);
 

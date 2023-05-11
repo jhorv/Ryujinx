@@ -73,7 +73,7 @@ namespace Ryujinx.Tests.Audio.Renderer.Dsp
                 _ => 0
             };
 
-            for (int sample = 0; sample < outputSampleCount; sample++)
+            for (int sample = 0; sample < expectedOutput.Length; sample++)
             {
                 outputBuffer[sample] /= 32767;
                 // 440 hz sine wave with amplitude = 0.5f at output sample rate

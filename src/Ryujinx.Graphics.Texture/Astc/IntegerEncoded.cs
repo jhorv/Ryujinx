@@ -124,7 +124,7 @@ namespace Ryujinx.Graphics.Texture.Astc
 
             IntegerEncoded intEncoded = new IntegerEncoded(EIntegerEncoding.Trit, numberBitsPerValue);
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < m.Length; i++)
             {
                 intEncoded.BitValue = m[i];
                 intEncoded.TritValue = encodings[i];
@@ -138,7 +138,7 @@ namespace Ryujinx.Graphics.Texture.Astc
             ref IntegerSequence listIntegerEncoded,
             int numberBitsPerValue)
         {
-            ReadOnlySpan<byte> interleavedBits = new byte[] { 3, 2, 2 };
+            ReadOnlySpan<byte> interleavedBits = new byte[3] { 3, 2, 2 };
 
             // Implement the algorithm in section C.2.12
             Span<int> m = stackalloc int[3];
@@ -157,7 +157,7 @@ namespace Ryujinx.Graphics.Texture.Astc
 
             ReadOnlySpan<byte> encodings = GetQuintEncoding((int)encoded);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < m.Length; i++)
             {
                 IntegerEncoded intEncoded = new IntegerEncoded(EIntegerEncoding.Quint, numberBitsPerValue)
                 {

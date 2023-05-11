@@ -89,7 +89,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
             primaryIndex = PlayerIndex.Unknown;
             configuredCount = 0;
 
-            for (int i = 0; i < MaxControllers; ++i)
+            for (int i = 0; i < _configuredTypes.Length; ++i)
             {
                 ControllerType npad = _configuredTypes[i];
 
@@ -171,7 +171,7 @@ namespace Ryujinx.HLE.HOS.Services.Hid
         private void Remap()
         {
             // Remap/Init if necessary
-            for (int i = 0; i < MaxControllers; ++i)
+            for (int i = 0; i < _configuredTypes.Length; ++i)
             {
                 ControllerType config = _configuredTypes[i];
 

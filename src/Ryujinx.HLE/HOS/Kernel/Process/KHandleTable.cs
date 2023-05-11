@@ -50,7 +50,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
             KHandleEntry entry = _tableHead;
 
-            for (int index = 0; index < size; index++)
+            for (int index = 0; index < _table.Length; index++)
             {
                 _table[index] = entry;
 
@@ -261,7 +261,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
         {
             lock (_table)
             {
-                for (int index = 0; index < _size; index++)
+                for (int index = 0; index < _table.Length; index++)
                 {
                     KHandleEntry entry = _table[index];
 

@@ -117,7 +117,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
 
                 string[] expr = new string[arity];
 
-                for (int index = 0; index < arity; index++)
+                for (int index = 0; index < expr.Length; index++)
                 {
                     IAstNode src = operation.GetSource(index);
 

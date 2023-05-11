@@ -87,7 +87,7 @@ namespace Ryujinx.Graphics.Vulkan
             _queuedIndexesPtr = 0;
             _queuedCount = 0;
 
-            for (int i = 0; i < _totalCommandBuffers; i++)
+            for (int i = 0; i < _commandBuffers.Length; i++)
             {
                 _commandBuffers[i].Initialize(api, device, _pool);
                 WaitAndDecrementRef(i);
@@ -104,7 +104,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             lock (_commandBuffers)
             {
-                for (int i = 0; i < _totalCommandBuffers; i++)
+                for (int i = 0; i < _commandBuffers.Length; i++)
                 {
                     ref var entry = ref _commandBuffers[i];
 
@@ -120,7 +120,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             lock (_commandBuffers)
             {
-                for (int i = 0; i < _totalCommandBuffers; i++)
+                for (int i = 0; i < _commandBuffers.Length; i++)
                 {
                     ref var entry = ref _commandBuffers[i];
 
@@ -151,7 +151,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             lock (_commandBuffers)
             {
-                for (int i = 0; i < _totalCommandBuffers; i++)
+                for (int i = 0; i < _commandBuffers.Length; i++)
                 {
                     ref var entry = ref _commandBuffers[i];
 
@@ -171,7 +171,7 @@ namespace Ryujinx.Graphics.Vulkan
         {
             lock (_commandBuffers)
             {
-                for (int i = 0; i < _totalCommandBuffers; i++)
+                for (int i = 0; i < _commandBuffers.Length; i++)
                 {
                     ref var entry = ref _commandBuffers[i];
 
@@ -231,7 +231,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 int cursor = FreeConsumed(_inUseCount + _queuedCount == _totalCommandBuffers);
 
-                for (int i = 0; i < _totalCommandBuffers; i++)
+                for (int i = 0; i < _commandBuffers.Length; i++)
                 {
                     ref var entry = ref _commandBuffers[cursor];
 
@@ -357,7 +357,7 @@ namespace Ryujinx.Graphics.Vulkan
 
         public unsafe void Dispose()
         {
-            for (int i = 0; i < _totalCommandBuffers; i++)
+            for (int i = 0; i < _commandBuffers.Length; i++)
             {
                 WaitAndDecrementRef(i, refreshFence: false);
             }

@@ -65,48 +65,46 @@ namespace Ryujinx.Graphics.Texture
             Debug.Assert(rotation < 4);
             Debug.Assert(indexMode < 2);
 
-            int endPointCount = modeInfo.SubsetCount * 2;
-
-            Span<RgbaColor32> endPoints = stackalloc RgbaColor32[endPointCount];
+            Span<RgbaColor32> endPoints = stackalloc RgbaColor32[modeInfo.SubsetCount * 2];
             Span<byte> pValues = stackalloc byte[modeInfo.PBits];
 
             endPoints.Fill(new RgbaColor32(0, 0, 0, 255));
 
-            for (int i = 0; i < endPointCount; i++)
+            for (int i = 0; i < endPoints.Length; i++)
             {
                 endPoints[i].R = (int)block.Decode(ref offset, modeInfo.ColorDepth);
             }
 
-            for (int i = 0; i < endPointCount; i++)
+            for (int i = 0; i < endPoints.Length; i++)
             {
                 endPoints[i].G = (int)block.Decode(ref offset, modeInfo.ColorDepth);
             }
 
-            for (int i = 0; i < endPointCount; i++)
+            for (int i = 0; i < endPoints.Length; i++)
             {
                 endPoints[i].B = (int)block.Decode(ref offset, modeInfo.ColorDepth);
             }
 
             if (modeInfo.AlphaDepth != 0)
             {
-                for (int i = 0; i < endPointCount; i++)
+                for (int i = 0; i < endPoints.Length; i++)
                 {
                     endPoints[i].A = (int)block.Decode(ref offset, modeInfo.AlphaDepth);
                 }
             }
 
-            for (int i = 0; i < modeInfo.PBits; i++)
+            for (int i = 0; i < pValues.Length; i++)
             {
                 pValues[i] = (byte)block.Decode(ref offset, 1);
             }
 
-            for (int i = 0; i < endPointCount; i++)
+            for (int i = 0; i < endPoints.Length; i++)
             {
                 int pBit = -1;
 
                 if (modeInfo.PBits != 0)
                 {
-                    int pIndex = (i * modeInfo.PBits) / endPointCount;
+                    int pIndex = (i * modeInfo.PBits) / endPoints.Length;
                     pBit = pValues[pIndex];
                 }
 
@@ -118,7 +116,7 @@ namespace Ryujinx.Graphics.Texture
 
             Span<byte> colorIndices = stackalloc byte[16];
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < colorIndices.Length; i++)
             {
                 byte subset = partitionTable[i];
                 int bitCount = i == fixUpTable[subset] ? modeInfo.ColorIndexBitCount - 1 : modeInfo.ColorIndexBitCount;
@@ -131,7 +129,7 @@ namespace Ryujinx.Graphics.Texture
 
             if (modeInfo.AlphaIndexBitCount != 0)
             {
-                for (int i = 0; i < 16; i++)
+                for (int i = 0; i < alphaIndices.Length; i++)
                 {
                     int bitCount = i != 0 ? modeInfo.AlphaIndexBitCount : modeInfo.AlphaIndexBitCount - 1;
 

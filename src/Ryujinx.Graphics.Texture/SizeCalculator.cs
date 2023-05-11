@@ -53,7 +53,7 @@ namespace Ryujinx.Graphics.Texture
 
             int depthLevelOffset = 0;
 
-            for (int level = 0; level < levels; level++)
+            for (int level = 0; level < levelSizes.Length; level++)
             {
                 int w = Math.Max(1, width  >> level);
                 int h = Math.Max(1, height >> level);

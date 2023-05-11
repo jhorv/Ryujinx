@@ -28,7 +28,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
                 }
                 else
                 {
-                    for (int index = 0; index < IdMasksCount; index++)
+                    for (int index = 0; index < _idMasks.Length; index++)
                     {
                         int mask = _idMasks[index];
 

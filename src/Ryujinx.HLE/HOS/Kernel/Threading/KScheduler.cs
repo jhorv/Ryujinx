@@ -13,7 +13,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
         private const int RoundRobinTimeQuantumMs = 10;
 
-        private static readonly int[] PreemptionPriorities = new int[] { 59, 59, 59, 63 };
+        private static readonly int[] PreemptionPriorities = new int[CpuCoresCount] { 59, 59, 59, 63 };
 
         private static readonly int[] _srcCoresHighestPrioThreads = new int[CpuCoresCount];
 
@@ -409,7 +409,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
             {
                 context.CriticalSection.Enter();
 
-                for (int core = 0; core < CpuCoresCount; core++)
+                for (int core = 0; core < PreemptionPriorities.Length; core++)
                 {
                     RotateScheduledQueue(context, core, PreemptionPriorities[core]);
                 }

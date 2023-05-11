@@ -231,7 +231,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
         {
             Thread[] workThreads = new Thread[ThreadCount];
 
-            for (int index = 0; index < ThreadCount; index++)
+            for (int index = 0; index < workThreads.Length; index++)
             {
                 workThreads[index] = new Thread(ProcessAsyncQueue)
                 {
@@ -248,7 +248,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             Logger.Info?.Print(LogClass.Gpu, $"Loading {programCount} shaders from the cache...");
 
-            for (int index = 0; index < ThreadCount; index++)
+            for (int index = 0; index < workThreads.Length; index++)
             {
                 workThreads[index].Start(_cancellationToken);
             }
@@ -280,7 +280,7 @@ namespace Ryujinx.Graphics.Gpu.Shader.DiskCache
 
             _asyncTranslationQueue.CompleteAdding();
 
-            for (int index = 0; index < ThreadCount; index++)
+            for (int index = 0; index < workThreads.Length; index++)
             {
                 workThreads[index].Join();
             }

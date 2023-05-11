@@ -207,7 +207,7 @@ namespace ARMeilleure.Instructions
             byte[] inState  = op.ToArray();
             byte[] outState = new byte[16];
 
-            for (int idx = 0; idx <= 15; idx++)
+            for (int idx = 0; idx < inState.Length; idx++)
             {
                 outState[_isrPerm[idx]] = inState[idx];
             }
@@ -220,7 +220,7 @@ namespace ARMeilleure.Instructions
             byte[] inState  = op.ToArray();
             byte[] outState = new byte[16];
 
-            for (int idx = 0; idx <= 15; idx++)
+            for (int idx = 0; idx < outState.Length; idx++)
             {
                 outState[idx] = _invSBox[inState[idx]];
             }
@@ -256,7 +256,7 @@ namespace ARMeilleure.Instructions
             byte[] inState  = op.ToArray();
             byte[] outState = new byte[16];
 
-            for (int idx = 0; idx <= 15; idx++)
+            for (int idx = 0; idx < inState.Length; idx++)
             {
                 outState[_srPerm[idx]] = inState[idx];
             }
@@ -269,7 +269,7 @@ namespace ARMeilleure.Instructions
             byte[] inState  = op.ToArray();
             byte[] outState = new byte[16];
 
-            for (int idx = 0; idx <= 15; idx++)
+            for (int idx = 0; idx < outState.Length; idx++)
             {
                 outState[idx] = _sBox[inState[idx]];
             }

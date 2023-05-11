@@ -353,7 +353,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             bool areAllOffsetsConstant = true;
 
-            for (int index = 0; index < offsetsCount; index++)
+            for (int index = 0; index < offsets.Length; index++)
             {
                 Operand offset = texOp.GetSource(srcIndex++);
 
@@ -610,7 +610,7 @@ namespace Ryujinx.Graphics.Shader.Translation
                 new[] { lod },
                 lodSources));
 
-            for (int index = 0; index < coordsCount; index++)
+            for (int index = 0; index < texSizes.Length; index++)
             {
                 texSizes[index] = Local();
 

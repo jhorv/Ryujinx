@@ -956,7 +956,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Ipc
 
             ulong recvListAddress = message.Address + recvListOffset;
 
-            for (int index = 0; index < recvListSize; index++)
+            for (int index = 0; index < receiveList.Length; index++)
             {
                 receiveList[index] = ownerProcess.CpuMemory.Read<ulong>(recvListAddress + (ulong)index * 8);
             }

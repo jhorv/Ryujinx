@@ -259,7 +259,7 @@ namespace ARMeilleure.Instructions
                 int elems = op.GetBytesCount() >> op.Size;
 
                 (int Qx, int Ix)[] tableTuples = new (int, int)[length];
-                for (int i = 0; i < length; i++)
+                for (int i = 0; i < tableTuples.Length; i++)
                 {
                     tableTuples[i] = GetQuadwordAndSubindex(op.Vn + i, op.RegisterSize);
                 }
@@ -287,7 +287,7 @@ namespace ARMeilleure.Instructions
                     // What should we shift by to extract it.
                     Operand subVecIndexShift = context.ShiftLeft(context.BitwiseAnd(selectedIndex, Const(7)), Const(3));
 
-                    for (int i = 0; i < length; i++)
+                    for (int i = 0; i < tableTuples.Length; i++)
                     {
                         (int qx, int ix) = tableTuples[i];
                         // Get the whole vector, we'll get a byte out of it.

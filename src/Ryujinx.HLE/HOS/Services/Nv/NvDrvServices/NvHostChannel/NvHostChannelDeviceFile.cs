@@ -39,7 +39,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
 
         protected static uint[] DeviceSyncpoints = new uint[MaxModuleSyncpoint];
 
-        protected uint[] ChannelSyncpoints;
+        protected readonly uint[] ChannelSyncpoints;
 
         protected static ResourcePolicy ChannelResourcePolicy = ResourcePolicy.Device;
 
@@ -543,7 +543,7 @@ namespace Ryujinx.HLE.HOS.Services.Nv.NvDrvServices.NvHostChannel
             _host1xContext.Host1x.DestroyContext(_contextId);
             Channel.Dispose();
 
-            for (int i = 0; i < MaxModuleSyncpoint; i++)
+            for (int i = 0; i < ChannelSyncpoints.Length; i++)
             {
                 if (ChannelSyncpoints[i] != 0)
                 {

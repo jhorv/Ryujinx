@@ -136,7 +136,7 @@ namespace Ryujinx.Graphics.Shader.Translation
 
             ImapTypes = new ImapPixelType[32];
 
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < ImapTypes.Length; i++)
             {
                 byte imap = (byte)(header[6 + (i >> 2)] >> ((i & 3) * 8));
 

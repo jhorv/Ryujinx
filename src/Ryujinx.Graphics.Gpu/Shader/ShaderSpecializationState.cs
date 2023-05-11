@@ -783,11 +783,11 @@ namespace Ryujinx.Graphics.Gpu.Shader
             {
                 ushort tfCount = 0;
                 dataReader.Read(ref tfCount);
-                specState.TransformFeedbackDescriptors = new TransformFeedbackDescriptor[tfCount];
+                TransformFeedbackDescriptor[] tfdArray = specState.TransformFeedbackDescriptors = new TransformFeedbackDescriptor[tfCount];
 
-                for (int index = 0; index < tfCount; index++)
+                for (int index = 0; index < tfdArray.Length; index++)
                 {
-                    dataReader.ReadWithMagicAndSize(ref specState.TransformFeedbackDescriptors[index], TfbdMagic);
+                    dataReader.ReadWithMagicAndSize(ref tfdArray[index], TfbdMagic);
                 }
             }
 

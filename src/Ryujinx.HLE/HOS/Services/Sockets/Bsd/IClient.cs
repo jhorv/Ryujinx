@@ -342,7 +342,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
 
             PollEvent[] events = new PollEvent[fdsCount];
 
-            for (int i = 0; i < fdsCount; i++)
+            for (int i = 0; i < events.Length; i++)
             {
                 PollEventData pollEventData = context.Memory.Read<PollEventData>(inputBufferPosition + (ulong)(i * Unsafe.SizeOf<PollEventData>()));
 
@@ -449,7 +449,7 @@ namespace Ryujinx.HLE.HOS.Services.Sockets.Bsd
             }
 
             // TODO: Spanify
-            for (int i = 0; i < fdsCount; i++)
+            for (int i = 0; i < events.Length; i++)
             {
                 context.Memory.Write(outputBufferPosition + (ulong)(i * Unsafe.SizeOf<PollEventData>()), events[i].Data);
             }

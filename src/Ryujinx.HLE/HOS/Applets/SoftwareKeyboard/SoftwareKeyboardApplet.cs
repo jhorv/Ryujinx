@@ -360,7 +360,7 @@ namespace Ryujinx.HLE.HOS.Applets
                             {
                                 _keyboardBackgroundUserWords = new SoftwareKeyboardUserWord[wordsCount];
 
-                                for (int word = 0; word < wordsCount; word++)
+                                for (int word = 0; word < _keyboardBackgroundUserWords.Length; word++)
                                 {
                                     _keyboardBackgroundUserWords[word] = reader.ReadStruct<SoftwareKeyboardUserWord>();
                                 }

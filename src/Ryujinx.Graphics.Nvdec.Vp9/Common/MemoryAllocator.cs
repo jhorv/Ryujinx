@@ -24,7 +24,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Common
 
             IntPtr ptr = IntPtr.Zero;
 
-            for (int i = 0; i < PoolEntries; i++)
+            for (int i = 0; i < _pool.Length; i++)
             {
                 ref PoolItem item = ref _pool[i];
 
@@ -40,7 +40,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Common
             {
                 ptr = Marshal.AllocHGlobal(lengthInBytes);
 
-                for (int i = 0; i < PoolEntries; i++)
+                for (int i = 0; i < _pool.Length; i++)
                 {
                     ref PoolItem item = ref _pool[i];
 
@@ -65,7 +65,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Common
         {
             IntPtr ptr = (IntPtr)arr.ToPointer();
 
-            for (int i = 0; i < PoolEntries; i++)
+            for (int i = 0; i < _pool.Length; i++)
             {
                 ref PoolItem item = ref _pool[i];
 
@@ -79,7 +79,7 @@ namespace Ryujinx.Graphics.Nvdec.Vp9.Common
 
         public void Dispose()
         {
-            for (int i = 0; i < PoolEntries; i++)
+            for (int i = 0; i < _pool.Length; i++)
             {
                 ref PoolItem item = ref _pool[i];
 

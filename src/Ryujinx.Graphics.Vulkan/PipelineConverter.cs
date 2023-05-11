@@ -51,7 +51,7 @@ namespace Ryujinx.Graphics.Vulkan
             {
                 attachmentDescs = new AttachmentDescription[attachmentCount];
 
-                for (int i = 0; i < attachmentCount; i++)
+                for (int i = 0; i < attachmentDescs.Length; i++)
                 {
                     int bindIndex = attachmentIndices[i];
 

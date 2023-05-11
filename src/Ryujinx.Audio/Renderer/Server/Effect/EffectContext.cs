@@ -42,7 +42,7 @@ namespace Ryujinx.Audio.Renderer.Server.Effect
             _effectCount = effectCount;
             _effects = new BaseEffect[effectCount];
 
-            for (int i = 0; i < _effectCount; i++)
+            for (int i = 0; i < _effects.Length; i++)
             {
                 _effects[i] = new BaseEffect();
             }

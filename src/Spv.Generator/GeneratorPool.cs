@@ -40,7 +40,7 @@ namespace Spv.Generator
             {
                 T[] pool = new T[_poolSizeIncrement];
 
-                for (int i = 0; i < _poolSizeIncrement; i++)
+                for (int i = 0; i < pool.Length; i++)
                 {
                     pool[i] = new T();
                 }

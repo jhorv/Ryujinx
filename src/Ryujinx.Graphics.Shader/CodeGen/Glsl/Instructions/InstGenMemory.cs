@@ -125,7 +125,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
             {
                 string[] elems = new string[pCount];
 
-                for (int index = 0; index < pCount; index++)
+                for (int index = 0; index < elems.Length; index++)
                 {
                     elems[index] = Src(AggregateType.S32);
                 }
@@ -143,7 +143,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
 
                 string[] cElems = new string[4];
 
-                for (int index = 0; index < 4; index++)
+                for (int index = 0; index < cElems.Length; index++)
                 {
                     if (srcIndex < texOp.SourcesCount)
                     {
@@ -301,7 +301,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
             {
                 string[] elems = new string[coordsCount];
 
-                for (int index = 0; index < coordsCount; index++)
+                for (int index = 0; index < elems.Length; index++)
                 {
                     elems[index] = GetSoureExpr(context, texOp.GetSource(coordsIndex + index), AggregateType.FP32);
                 }
@@ -576,7 +576,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
                 {
                     string[] elems = new string[count];
 
-                    for (int index = 0; index < count; index++)
+                    for (int index = 0; index < elems.Length; index++)
                     {
                         if (arrayIndexElem == index)
                         {
@@ -661,7 +661,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
                 {
                     string[] elems = new string[count];
 
-                    for (int index = 0; index < count; index++)
+                    for (int index = 0; index < elems.Length; index++)
                     {
                         elems[index] = Src(AggregateType.FP32);
                     }
@@ -700,7 +700,7 @@ namespace Ryujinx.Graphics.Shader.CodeGen.Glsl.Instructions
                 {
                     string[] elems = new string[count];
 
-                    for (int index = 0; index < count; index++)
+                    for (int index = 0; index < elems.Length; index++)
                     {
                         elems[index] = Src(AggregateType.S32);
                     }

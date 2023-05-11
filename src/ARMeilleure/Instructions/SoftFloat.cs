@@ -19,7 +19,7 @@ namespace ARMeilleure.Instructions
         {
             byte[] tbl = new byte[256];
 
-            for (int idx = 0; idx < 256; idx++)
+            for (int idx = 0; idx < tbl.Length; idx++)
             {
                 uint src = (uint)idx + 256u;
 
@@ -43,7 +43,7 @@ namespace ARMeilleure.Instructions
         {
             byte[] tbl = new byte[384];
 
-            for (int idx = 0; idx < 384; idx++)
+            for (int idx = 0; idx < tbl.Length; idx++)
             {
                 uint src = (uint)idx + 128u;
 

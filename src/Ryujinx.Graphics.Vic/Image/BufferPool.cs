@@ -55,7 +55,7 @@ namespace Ryujinx.Graphics.Vic.Image
 
             // Try to find a buffer that is larger or the same size of the requested one.
             // This will avoid an allocation.
-            for (int i = 0; i < MaxBuffers; i++)
+            for (int i = 0; i < _pool.Length; i++)
             {
                 ref PoolItem item = ref _pool[i];
 
@@ -71,7 +71,7 @@ namespace Ryujinx.Graphics.Vic.Image
 
             // Try to add the new buffer to the pool.
             // We try to find a slot that is not in use, and replace the buffer in it.
-            for (int i = 0; i < MaxBuffers; i++)
+            for (int i = 0; i < _pool.Length; i++)
             {
                 ref PoolItem item = ref _pool[i];
 

@@ -651,7 +651,7 @@ namespace ARMeilleure.Translation.PTC
         {
             RelocEntry[] relocEntries = new RelocEntry[relocEntriesCount];
 
-            for (int i = 0; i < relocEntriesCount; i++)
+            for (int i = 0; i < relocEntries.Length; i++)
             {
                 int position = relocsReader.ReadInt32();
                 SymbolType type = (SymbolType)relocsReader.ReadByte();
@@ -723,7 +723,7 @@ namespace ARMeilleure.Translation.PTC
 
             UnwindPushEntry[] pushEntries = new UnwindPushEntry[pushEntriesLength];
 
-            for (int i = 0; i < pushEntriesLength; i++)
+            for (int i = 0; i < pushEntries.Length; i++)
             {
                 int pseudoOp = unwindInfosReader.ReadInt32();
                 int prologOffset = unwindInfosReader.ReadInt32();

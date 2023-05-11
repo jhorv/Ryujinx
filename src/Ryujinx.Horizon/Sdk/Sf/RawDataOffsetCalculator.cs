@@ -16,7 +16,7 @@ namespace Ryujinx.Horizon.Sdk.Sf
                 int[] aligns = new int[argsCount];
                 int[] map    = new int[argsCount];
 
-                for (int i = 0; i < argsCount; i++)
+                for (int i = 0; i < args.Length; i++)
                 {
                     sizes[i]  = args[i].ArgSize;
                     aligns[i] = args[i].ArgAlignment;

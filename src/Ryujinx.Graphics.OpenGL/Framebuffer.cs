@@ -109,7 +109,7 @@ namespace Ryujinx.Graphics.OpenGL
         {
             DrawBuffersEnum[] drawBuffers = new DrawBuffersEnum[colorsCount];
 
-            for (int index = 0; index < colorsCount; index++)
+            for (int index = 0; index < drawBuffers.Length; index++)
             {
                 drawBuffers[index] = DrawBuffersEnum.ColorAttachment0 + index;
             }
