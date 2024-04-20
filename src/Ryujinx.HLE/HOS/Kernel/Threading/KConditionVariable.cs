@@ -1,3 +1,4 @@
+using Ryujinx.Common.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -5,7 +6,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 {
     static class KConditionVariable
     {
-        public static void Wait(KernelContext context, LinkedList<KThread> threadList, object mutex, long timeout)
+        public static void Wait(KernelContext context, RyujinxLinkedList<KThread> threadList, object mutex, long timeout)
         {
             KThread currentThread = KernelStatic.GetCurrentThread();
 
@@ -47,11 +48,11 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
             Monitor.Enter(mutex);
         }
 
-        public static void NotifyAll(KernelContext context, LinkedList<KThread> threadList)
+        public static void NotifyAll(KernelContext context, RyujinxLinkedList<KThread> threadList)
         {
             context.CriticalSection.Enter();
 
-            LinkedListNode<KThread> node = threadList.First;
+            RyujinxLinkedListNode<KThread> node = threadList.First;
 
             for (; node != null; node = threadList.First)
             {

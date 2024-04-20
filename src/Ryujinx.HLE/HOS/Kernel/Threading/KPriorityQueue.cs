@@ -1,3 +1,4 @@
+using Ryujinx.Common.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -5,26 +6,26 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 {
     class KPriorityQueue
     {
-        private readonly LinkedList<KThread>[][] _scheduledThreadsPerPrioPerCore;
-        private readonly LinkedList<KThread>[][] _suggestedThreadsPerPrioPerCore;
+        private readonly RyujinxLinkedList<KThread>[][] _scheduledThreadsPerPrioPerCore;
+        private readonly RyujinxLinkedList<KThread>[][] _suggestedThreadsPerPrioPerCore;
 
         private readonly long[] _scheduledPrioritiesPerCore;
         private readonly long[] _suggestedPrioritiesPerCore;
 
         public KPriorityQueue()
         {
-            _suggestedThreadsPerPrioPerCore = new LinkedList<KThread>[KScheduler.PrioritiesCount][];
-            _scheduledThreadsPerPrioPerCore = new LinkedList<KThread>[KScheduler.PrioritiesCount][];
+            _suggestedThreadsPerPrioPerCore = new RyujinxLinkedList<KThread>[KScheduler.PrioritiesCount][];
+            _scheduledThreadsPerPrioPerCore = new RyujinxLinkedList<KThread>[KScheduler.PrioritiesCount][];
 
             for (int prio = 0; prio < KScheduler.PrioritiesCount; prio++)
             {
-                _suggestedThreadsPerPrioPerCore[prio] = new LinkedList<KThread>[KScheduler.CpuCoresCount];
-                _scheduledThreadsPerPrioPerCore[prio] = new LinkedList<KThread>[KScheduler.CpuCoresCount];
+                _suggestedThreadsPerPrioPerCore[prio] = new RyujinxLinkedList<KThread>[KScheduler.CpuCoresCount];
+                _scheduledThreadsPerPrioPerCore[prio] = new RyujinxLinkedList<KThread>[KScheduler.CpuCoresCount];
 
                 for (int core = 0; core < KScheduler.CpuCoresCount; core++)
                 {
-                    _suggestedThreadsPerPrioPerCore[prio][core] = new LinkedList<KThread>();
-                    _scheduledThreadsPerPrioPerCore[prio][core] = new LinkedList<KThread>();
+                    _suggestedThreadsPerPrioPerCore[prio][core] = new RyujinxLinkedList<KThread>();
+                    _scheduledThreadsPerPrioPerCore[prio][core] = new RyujinxLinkedList<KThread>();
                 }
             }
 
@@ -34,11 +35,11 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
         public readonly ref struct KThreadEnumerable
         {
-            readonly LinkedList<KThread>[][] _listPerPrioPerCore;
+            readonly RyujinxLinkedList<KThread>[][] _listPerPrioPerCore;
             readonly long[] _prios;
             readonly int _core;
 
-            public KThreadEnumerable(LinkedList<KThread>[][] listPerPrioPerCore, long[] prios, int core)
+            public KThreadEnumerable(RyujinxLinkedList<KThread>[][] listPerPrioPerCore, long[] prios, int core)
             {
                 _listPerPrioPerCore = listPerPrioPerCore;
                 _prios = prios;
@@ -52,14 +53,14 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
             public ref struct Enumerator
             {
-                private readonly LinkedList<KThread>[][] _listPerPrioPerCore;
+                private readonly RyujinxLinkedList<KThread>[][] _listPerPrioPerCore;
                 private readonly int _core;
                 private long _prioMask;
                 private int _prio;
-                private LinkedList<KThread> _list;
-                private LinkedListNode<KThread> _node;
+                private RyujinxLinkedList<KThread> _list;
+                private RyujinxLinkedListNode<KThread> _node;
 
-                public Enumerator(LinkedList<KThread>[][] listPerPrioPerCore, long[] prios, int core)
+                public Enumerator(RyujinxLinkedList<KThread>[][] listPerPrioPerCore, long[] prios, int core)
                 {
                     _listPerPrioPerCore = listPerPrioPerCore;
                     _core = core;
@@ -206,7 +207,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
                 return;
             }
 
-            LinkedList<KThread> queue = SuggestedQueue(prio, core);
+            RyujinxLinkedList<KThread> queue = SuggestedQueue(prio, core);
 
             queue.Remove(thread.SiblingsPerCore[core]);
 
@@ -247,7 +248,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
                 return null;
             }
 
-            LinkedList<KThread> queue = ScheduledQueue(prio, core);
+            RyujinxLinkedList<KThread> queue = ScheduledQueue(prio, core);
 
             queue.Remove(thread.SiblingsPerCore[core]);
 
@@ -263,7 +264,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
                 return;
             }
 
-            LinkedList<KThread> queue = ScheduledQueue(prio, core);
+            RyujinxLinkedList<KThread> queue = ScheduledQueue(prio, core);
 
             queue.Remove(thread.SiblingsPerCore[core]);
 
@@ -273,12 +274,12 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
             }
         }
 
-        private LinkedList<KThread> SuggestedQueue(int prio, int core)
+        private RyujinxLinkedList<KThread> SuggestedQueue(int prio, int core)
         {
             return _suggestedThreadsPerPrioPerCore[prio][core];
         }
 
-        private LinkedList<KThread> ScheduledQueue(int prio, int core)
+        private RyujinxLinkedList<KThread> ScheduledQueue(int prio, int core)
         {
             return _scheduledThreadsPerPrioPerCore[prio][core];
         }

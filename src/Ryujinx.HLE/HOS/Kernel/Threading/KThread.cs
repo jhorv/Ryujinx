@@ -1,3 +1,4 @@
+using Ryujinx.Common.Collections;
 using Ryujinx.Common.Logging;
 using Ryujinx.Cpu;
 using Ryujinx.HLE.HOS.Kernel.Common;
@@ -61,17 +62,17 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
         public long LastScheduledTime { get; set; }
 
-        public LinkedListNode<KThread>[] SiblingsPerCore { get; private set; }
+        public RyujinxLinkedListNode<KThread>[] SiblingsPerCore { get; private set; }
 
-        public LinkedList<KThread> Withholder { get; set; }
-        public LinkedListNode<KThread> WithholderNode { get; set; }
+        public RyujinxLinkedList<KThread> Withholder { get; set; }
+        public RyujinxLinkedListNode<KThread> WithholderNode { get; set; }
 
-        public LinkedListNode<KThread> ProcessListNode { get; set; }
+        public RyujinxLinkedListNode<KThread> ProcessListNode { get; set; }
 
-        private readonly LinkedList<KThread> _mutexWaiters;
-        private LinkedListNode<KThread> _mutexWaiterNode;
+        private readonly RyujinxLinkedList<KThread> _mutexWaiters;
+        private RyujinxLinkedListNode<KThread> _mutexWaiterNode;
 
-        private readonly LinkedList<KThread> _pinnedWaiters;
+        private readonly RyujinxLinkedList<KThread> _pinnedWaiters;
 
         public KThread MutexOwner { get; private set; }
 
@@ -119,10 +120,10 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
             WaitSyncObjects = new KSynchronizationObject[MaxWaitSyncObjects];
             WaitSyncHandles = new int[MaxWaitSyncObjects];
 
-            SiblingsPerCore = new LinkedListNode<KThread>[KScheduler.CpuCoresCount];
+            SiblingsPerCore = new RyujinxLinkedListNode<KThread>[KScheduler.CpuCoresCount];
 
-            _mutexWaiters = new LinkedList<KThread>();
-            _pinnedWaiters = new LinkedList<KThread>();
+            _mutexWaiters = new RyujinxLinkedList<KThread>();
+            _pinnedWaiters = new RyujinxLinkedList<KThread>();
         }
 
         public Result Initialize(
@@ -932,7 +933,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
             KThread newMutexOwner = null;
 
-            LinkedListNode<KThread> currentNode = _mutexWaiters.First;
+            RyujinxLinkedListNode<KThread> currentNode = _mutexWaiters.First;
 
             do
             {
@@ -947,7 +948,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
                     break;
                 }
 
-                LinkedListNode<KThread> nextNode = currentNode.Next;
+                RyujinxLinkedListNode<KThread> nextNode = currentNode.Next;
 
                 _mutexWaiters.Remove(currentNode);
 
@@ -1019,7 +1020,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Threading
 
         private void AddToMutexWaitersList(KThread thread)
         {
-            LinkedListNode<KThread> nextPrio = _mutexWaiters.First;
+            RyujinxLinkedListNode<KThread> nextPrio = _mutexWaiters.First;
 
             int currentPriority = thread.DynamicPriority;
 

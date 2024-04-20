@@ -1,4 +1,5 @@
 using Ryujinx.Common;
+using Ryujinx.Common.Collections;
 using Ryujinx.Common.Logging;
 using Ryujinx.Cpu;
 using Ryujinx.HLE.Exceptions;
@@ -76,7 +77,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
 
         public ulong UserExceptionContextAddress { get; private set; }
 
-        private readonly LinkedList<KThread> _threads;
+        private readonly RyujinxLinkedList<KThread> _threads;
 
         public bool IsPaused { get; private set; }
 
@@ -107,7 +108,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Process
             // TODO: Remove once we no longer need to initialize it externally.
             HandleTable = new KHandleTable();
 
-            _threads = new LinkedList<KThread>();
+            _threads = new RyujinxLinkedList<KThread>();
 
             Debugger = new HleProcessDebugger(this);
         }

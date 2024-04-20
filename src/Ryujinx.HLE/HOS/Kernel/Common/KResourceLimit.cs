@@ -1,4 +1,5 @@
 using Ryujinx.Common;
+using Ryujinx.Common.Collections;
 using Ryujinx.HLE.HOS.Kernel.Threading;
 using Ryujinx.Horizon.Common;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Common
 
         private readonly object _lock;
 
-        private readonly LinkedList<KThread> _waitingThreads;
+        private readonly RyujinxLinkedList<KThread> _waitingThreads;
 
         private int _waitingThreadsCount;
 
@@ -29,7 +30,7 @@ namespace Ryujinx.HLE.HOS.Kernel.Common
 
             _lock = new object();
 
-            _waitingThreads = new LinkedList<KThread>();
+            _waitingThreads = new RyujinxLinkedList<KThread>();
         }
 
         public bool Reserve(LimitableResource resource, ulong amount)
