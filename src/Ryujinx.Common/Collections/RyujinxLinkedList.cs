@@ -27,15 +27,15 @@ namespace Ryujinx.Common.Collections
         {
         }
 
-        public RyujinxLinkedList(IEnumerable<T> collection)
-        {
-            ArgumentNullException.ThrowIfNull(collection);
-
-            foreach (T item in collection)
-            {
-                AddLast(item);
-            }
-        }
+        // public RyujinxLinkedList(IEnumerable<T> collection)
+        // {
+        //     ArgumentNullException.ThrowIfNull(collection);
+        //
+        //     foreach (T item in collection)
+        //     {
+        //         AddLast(item);
+        //     }
+        // }
 
         public int Count => _count;
 
@@ -47,21 +47,21 @@ namespace Ryujinx.Common.Collections
 
         void ICollection<T>.Add(T value) => AddLast(value);
 
-        public RyujinxLinkedListNode<T> AddAfter(RyujinxLinkedListNode<T> node, T value)
-        {
-            ValidateNode(node);
-            var result = RyujinxLinkedListNode<T>.Create(node._list!, value);
-            InternalInsertNodeBefore(node._next!, result);
-            return result;
-        }
+        // public RyujinxLinkedListNode<T> AddAfter(RyujinxLinkedListNode<T> node, T value)
+        // {
+        //     ValidateNode(node);
+        //     var result = RyujinxLinkedListNode<T>.Create(node._list!, value);
+        //     InternalInsertNodeBefore(node._next!, result);
+        //     return result;
+        // }
 
-        public void AddAfter(RyujinxLinkedListNode<T> node, RyujinxLinkedListNode<T> newNode)
-        {
-            ValidateNode(node);
-            ValidateNewNode(newNode);
-            InternalInsertNodeBefore(node._next!, newNode);
-            newNode._list = this;
-        }
+        // public void AddAfter(RyujinxLinkedListNode<T> node, RyujinxLinkedListNode<T> newNode)
+        // {
+        //     ValidateNode(node);
+        //     ValidateNewNode(newNode);
+        //     InternalInsertNodeBefore(node._next!, newNode);
+        //     newNode._list = this;
+        // }
 
         public RyujinxLinkedListNode<T> AddBefore(RyujinxLinkedListNode<T> node, T value)
         {
@@ -75,17 +75,17 @@ namespace Ryujinx.Common.Collections
             return result;
         }
 
-        public void AddBefore(RyujinxLinkedListNode<T> node, RyujinxLinkedListNode<T> newNode)
-        {
-            ValidateNode(node);
-            ValidateNewNode(newNode);
-            InternalInsertNodeBefore(node, newNode);
-            newNode._list = this;
-            if (node == _head)
-            {
-                _head = newNode;
-            }
-        }
+        // public void AddBefore(RyujinxLinkedListNode<T> node, RyujinxLinkedListNode<T> newNode)
+        // {
+        //     ValidateNode(node);
+        //     ValidateNewNode(newNode);
+        //     InternalInsertNodeBefore(node, newNode);
+        //     newNode._list = this;
+        //     if (node == _head)
+        //     {
+        //         _head = newNode;
+        //     }
+        // }
 
         public RyujinxLinkedListNode<T> AddFirst(T value)
         {
@@ -102,21 +102,21 @@ namespace Ryujinx.Common.Collections
             return result;
         }
 
-        public void AddFirst(RyujinxLinkedListNode<T> node)
-        {
-            ValidateNewNode(node);
-
-            if (_head == null)
-            {
-                InternalInsertNodeToEmptyList(node);
-            }
-            else
-            {
-                InternalInsertNodeBefore(_head, node);
-                _head = node;
-            }
-            node._list = this;
-        }
+        // public void AddFirst(RyujinxLinkedListNode<T> node)
+        // {
+        //     ValidateNewNode(node);
+        //
+        //     if (_head == null)
+        //     {
+        //         InternalInsertNodeToEmptyList(node);
+        //     }
+        //     else
+        //     {
+        //         InternalInsertNodeBefore(_head, node);
+        //         _head = node;
+        //     }
+        //     node._list = this;
+        // }
 
         public RyujinxLinkedListNode<T> AddLast(T value)
         {
@@ -132,20 +132,20 @@ namespace Ryujinx.Common.Collections
             return result;
         }
 
-        public void AddLast(RyujinxLinkedListNode<T> node)
-        {
-            ValidateNewNode(node);
-
-            if (_head == null)
-            {
-                InternalInsertNodeToEmptyList(node);
-            }
-            else
-            {
-                InternalInsertNodeBefore(_head, node);
-            }
-            node._list = this;
-        }
+        // public void AddLast(RyujinxLinkedListNode<T> node)
+        // {
+        //     ValidateNewNode(node);
+        //
+        //     if (_head == null)
+        //     {
+        //         InternalInsertNodeToEmptyList(node);
+        //     }
+        //     else
+        //     {
+        //         InternalInsertNodeBefore(_head, node);
+        //     }
+        //     node._list = this;
+        // }
 
         public void Clear()
         {
@@ -154,7 +154,7 @@ namespace Ryujinx.Common.Collections
             {
                 RyujinxLinkedListNode<T> temp = current;
                 current = current.Next;
-                temp.Invalidate();
+                temp.Dispose();
             }
 
             _head = null;
@@ -166,7 +166,6 @@ namespace Ryujinx.Common.Collections
         {
             return Find(value) != null;
         }
-
 
         public void CopyTo(T[] array, int index)
         {
@@ -227,41 +226,41 @@ namespace Ryujinx.Common.Collections
             return null;
         }
 
-        public RyujinxLinkedListNode<T>? FindLast(T value)
-        {
-            if (_head == null) return null;
-
-            RyujinxLinkedListNode<T>? last = _head._prev;
-            RyujinxLinkedListNode<T>? node = last;
-            EqualityComparer<T> c = EqualityComparer<T>.Default;
-            if (node != null)
-            {
-                if (value != null)
-                {
-                    do
-                    {
-                        if (c.Equals(node!._item, value))
-                        {
-                            return node;
-                        }
-
-                        node = node._prev;
-                    } while (node != last);
-                }
-                else
-                {
-                    do
-                    {
-                        if (node!._item == null)
-                        {
-                            return node;
-                        }
-                        node = node._prev;
-                    } while (node != last);
-                }
-            }
-            return null;
-        }
+        // public RyujinxLinkedListNode<T>? FindLast(T value)
+        // {
+        //     if (_head == null) return null;
+        //
+        //     RyujinxLinkedListNode<T>? last = _head._prev;
+        //     RyujinxLinkedListNode<T>? node = last;
+        //     EqualityComparer<T> c = EqualityComparer<T>.Default;
+        //     if (node != null)
+        //     {
+        //         if (value != null)
+        //         {
+        //             do
+        //             {
+        //                 if (c.Equals(node!._item, value))
+        //                 {
+        //                     return node;
+        //                 }
+        //
+        //                 node = node._prev;
+        //             } while (node != last);
+        //         }
+        //         else
+        //         {
+        //             do
+        //             {
+        //                 if (node!._item == null)
+        //                 {
+        //                     return node;
+        //                 }
+        //                 node = node._prev;
+        //             } while (node != last);
+        //         }
+        //     }
+        //     return null;
+        // }
 
         public Enumerator GetEnumerator() => new Enumerator(this);
 
@@ -288,14 +287,14 @@ namespace Ryujinx.Common.Collections
 
         // public void RemoveFirst()
         // {
-        //     if (head == null) { throw new InvalidOperationException(LinkedListEmpty); }
-        //     InternalRemoveNode(head);
+        //     if (_head == null) { throw new InvalidOperationException(LinkedListEmpty); }
+        //     InternalRemoveNode(_head);
         // }
         //
         // public void RemoveLast()
         // {
-        //     if (head == null) { throw new InvalidOperationException(LinkedListEmpty); }
-        //     InternalRemoveNode(head._prev!);
+        //     if (_head == null) { throw new InvalidOperationException(LinkedListEmpty); }
+        //     InternalRemoveNode(_head._prev!);
         // }
 
         private void InternalInsertNodeBefore(RyujinxLinkedListNode<T> node, RyujinxLinkedListNode<T> newNode)
@@ -336,20 +335,21 @@ namespace Ryujinx.Common.Collections
                     _head = node._next;
                 }
             }
-            node.Invalidate();
+
+            node.Dispose();
             _count--;
             _version++;
         }
 
-        internal static void ValidateNewNode(RyujinxLinkedListNode<T> node)
-        {
-            ArgumentNullException.ThrowIfNull(node);
-
-            if (node._list != null)
-            {
-                throw new InvalidOperationException(LinkedListNodeIsAttached);
-            }
-        }
+        // internal static void ValidateNewNode(RyujinxLinkedListNode<T> node)
+        // {
+        //     ArgumentNullException.ThrowIfNull(node);
+        //
+        //     if (node._list != null)
+        //     {
+        //         throw new InvalidOperationException(LinkedListNodeIsAttached);
+        //     }
+        // }
 
         internal void ValidateNode(RyujinxLinkedListNode<T> node)
         {

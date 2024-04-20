@@ -6,7 +6,7 @@ namespace Ryujinx.Common.Collections
     public sealed class RyujinxLinkedListNode<T> : IDisposable
     {
         private static readonly ObjectPool<RyujinxLinkedListNode<T>>
-            _objectPool = new ObjectPool<RyujinxLinkedListNode<T>>(() => new(), 1000);
+            _objectPool = new ObjectPool<RyujinxLinkedListNode<T>>(() => new(), 8000);
 
         internal RyujinxLinkedList<T>? _list;
         internal RyujinxLinkedListNode<T>? _next;
@@ -64,7 +64,7 @@ namespace Ryujinx.Common.Collections
         /// <summary>Gets a reference to the value held by the node.</summary>
         public ref T ValueRef => ref _item;
 
-        internal void Invalidate()
+        private void Invalidate()
         {
             _list = null;
             _next = null;
@@ -76,6 +76,7 @@ namespace Ryujinx.Common.Collections
             if (_isDisposed == false)
             {
                 _isDisposed = true;
+                Invalidate();
                 _objectPool.Release(this);
             }
         }
